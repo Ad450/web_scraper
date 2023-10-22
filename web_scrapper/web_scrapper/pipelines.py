@@ -6,11 +6,12 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from typing import Iterable
 
 
 class WebScrapperPipeline:
     def process_item(self, item, spider):
-        tags : list[str] = item["tags"]
-        # take only one tag - First entry in tags
-        item["tags"]  = tags[0]
+        # tags : Iterable[str] = item["tags"]
+        # # take only one tag - First entry in tags
+        # item["tags"]  = tags[0]
         return item
