@@ -16,7 +16,6 @@ class QuotesCrawler (Spider):
                  text = quote.css("span.text::text").get(),
                  author =  quote.css("small.author::text").get(),
                  tags = quote.css("div.tags a.tag::text").getall()
-             )   
-             if next_page is not None:
-                 yield response.follow(url =response.urljoin(next_page),callback=self.parse)
-                 
+             )      
+         if next_page is not None:
+                 yield response.follow(url =response.urljoin(next_page),callback=self.parse)               
