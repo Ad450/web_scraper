@@ -10,4 +10,7 @@ from itemadapter import ItemAdapter
 
 class WebScrapperPipeline:
     def process_item(self, item, spider):
+        tags : list[str] = item["tags"]
+        # take only one tag - First entry in tags
+        item["tags"]  = tags[0]
         return item
