@@ -15,3 +15,10 @@ class WebScrapperPipeline:
         # # take only one tag - First entry in tags
         # item["tags"]  = tags[0]
         return item
+
+
+class AmazonPipeline:
+    def process_item(self, item, spider):
+        rating: str = item["rating"].split(" ")[0]
+        item["rating"] = rating
+        return item
