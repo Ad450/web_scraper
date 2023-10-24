@@ -26,11 +26,9 @@ class AmazonScraper(Spider):
     def parse(self, response: Response, **kwargs: Any) -> None:
         bs: BeautifulSoup = self.get_beautiful_soup(markup=response.text, parser="lxml")
         for category in bs.find_all(name="div", class_="puis-card-container"):
-            image_url: str = category.find(name="a", class_="a-link-normal")["href"]
-            description: str = category.find(
-                name="span", class_="a-size-base-plus"
-            ).text
-            rating: str = category.find(name="span", class_="a-icon-alt").text
+            image_url_tag: str = category.find(name="a", class_="a-link-normal")["href"]
+            description_tag: str = category.find(name="span", class_="a-size-base-plus")
+            rating_tag: str = category.find(name="span", class_="a-icon-alt")
             price_tag = category.find(name="span", class_="a-price")
 
             if price_tag:
@@ -41,6 +39,9 @@ class AmazonScraper(Spider):
                 )
             date_tag = category.find(name="span", class_="a-color-base a-text-bold")
             date: str = date_tag.text if date_tag is not None else ""
+            image_url = image_url_tag if image_url_tag is not None else ""
+            description = description_tag.text if description_tag is not None else ""
+            rating = rating_tag.text if rating_tag is not None else ""
 
             yield AmazonProduct(
                 image_src=image_url,

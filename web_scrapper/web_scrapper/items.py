@@ -6,11 +6,6 @@
 import scrapy
 
 
-# "img_src": image_url,
-#               "description": description,
-#               "rating": rating,
-#               "price": price,
-#               "save_percentage": save_percentage,
 class WebScrapperItem(scrapy.Item):
     text = scrapy.Field(serializer=str)
     author = scrapy.Field(serializer=str)
