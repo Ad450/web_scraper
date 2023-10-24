@@ -5,8 +5,10 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
-from typing import Iterable
+
+import asyncio
+from web_scrapper.db.mongo import MongoClient, MongoHelper
+from web_scrapper.db.models.amazon_product_model import AmazonProductModel
 
 
 class WebScrapperPipeline:
@@ -18,7 +20,22 @@ class WebScrapperPipeline:
 
 
 class AmazonPipeline:
+    def __init__(self) -> None:
+        self.mongo_instance: MongoClient = MongoClient.get_instance()
+
     def process_item(self, item, spider):
         rating: str = item["rating"].split(" ")[0]
         item["rating"] = rating
+
+        asyncio.gather(
+            MongoHelper.save(
+                AmazonProductModel(
+                    rating=item["rating"],
+                    description=item["description"],
+                    image_src=item["image_src"],
+                    price=item["price"],
+                    date=item["date"],
+                )
+            )
+        )
         return item
