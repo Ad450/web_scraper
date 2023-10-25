@@ -39,3 +39,7 @@ class AmazonPipeline:
             )
         )
         return item
+
+
+class JobbermanPipeline:
+    pass
