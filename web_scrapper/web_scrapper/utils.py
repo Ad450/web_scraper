@@ -19,7 +19,3 @@ amazon_url: str = """ https://www.amazon.com/s?k=amazon+shopping+online+website&
         9070372&hvnetw=g&hvqmt=b&hvrand=9675813140351476259&hvtargid=kwd-1283712009298&hydadcr
         =22394_13507777&tag=hydglogoo-20&ref=pd_sl_42mumgtcax_b
         """
-
-mongo_connection_string = (
-    "mongodb+srv://Emmanuel1999:Manu450666@cluster0.ynk8r7l.mongodb.net/test"
-)

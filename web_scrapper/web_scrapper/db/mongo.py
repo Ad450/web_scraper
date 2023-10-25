@@ -1,14 +1,16 @@
+import os
 from typing import Optional, Iterable, Callable
 from asyncio import run
 from mongoengine import connect, Document, QuerySet
-from web_scrapper.utils import mongo_connection_string
+from dotenv import load_dotenv
 
 
 class MongoClient:
     __instance: Optional["MongoClient"] = None
 
     def __init__(self) -> None:
-        run(self._initialize_mongo(host=mongo_connection_string))
+        load_dotenv()
+        run(self._initialize_mongo(host=os.getenv("DATABASE_CONNECTION_URL")))
 
     @staticmethod
     def get_instance() -> "MongoClient":

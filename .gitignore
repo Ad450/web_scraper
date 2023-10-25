@@ -3,3 +3,4 @@ venv
 
 #linting
 .pylintrc
+.env
