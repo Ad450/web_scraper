@@ -90,3 +90,11 @@ class JobbermanScraper(Spider):
                 "company-logo": company_logo,
                 "job_description": job_description.strip("\n"),
             }
+
+
+# possible solutions to dynamic identifiers
+#  - Check response headers for last-modified, content-length etc
+#  - Get the html structure whose children contains our idenfiers
+#  - computer hash of structure, check if it exists in the db
+#  - Store hash on the first attempt, throw an error on any
+#  - other subsequent attempt where the hash does not exist 2

@@ -43,3 +43,7 @@ class AmazonPipeline:
 
 class JobbermanPipeline:
     pass
+
+
+class GhanaJobsPipeline:
+    pass

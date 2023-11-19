@@ -19,3 +19,11 @@ amazon_url: str = """ https://www.amazon.com/s?k=amazon+shopping+online+website&
         9070372&hvnetw=g&hvqmt=b&hvrand=9675813140351476259&hvtargid=kwd-1283712009298&hydadcr
         =22394_13507777&tag=hydglogoo-20&ref=pd_sl_42mumgtcax_b
         """
+
+GHANA_JOBS_URL: str = "https://www.ghanajob.com/"
+
+
+class ContentNotFoundException(Exception):
+    def __init__(self, *args: object, message: str) -> None:
+        super().__init__(*args)
+        self.message = message
