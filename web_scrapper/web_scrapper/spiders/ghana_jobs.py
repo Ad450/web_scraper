@@ -34,6 +34,17 @@ class GhanaJobsScraper(Spider):
                 callback=self.__parse_jobs_in_category,
                 headers=headers,
             )
+        follow_urls = []
+        for i in range(1, 11):
+            url = GHANA_JOBS_URL + "job-vacancies-search-ghana?page=" + str(i)
+            follow_urls.append(url)
+
+        for url in follow_urls:
+            yield Request(
+                url=url,
+                callback=self.__parse_jobs_in_category,
+                headers=headers,
+            )
 
     def __parse_all_jobs_by_category(self, bs: BeautifulSoup) -> str:
         candidate_job_search_container = bs.find(
