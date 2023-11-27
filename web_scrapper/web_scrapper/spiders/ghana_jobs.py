@@ -3,10 +3,22 @@ import re
 from scrapy import Spider
 from scrapy.http import Response, Request
 from bs4 import BeautifulSoup
+
+# from scrapy_playwright.page import PageMethod
+
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium import webdriver
 from ..utils import headers, GHANA_JOBS_URL, ContentNotFoundException
 
 
 # from web_scrapper.items import WebScrapperItem
+
+# dynamically getting last pagionation
+# dynamic delays
 
 
 class GhanaJobsScraper(Spider):
@@ -14,7 +26,8 @@ class GhanaJobsScraper(Spider):
     urls = [GHANA_JOBS_URL]
 
     custom_settings: Dict[str, Any] = {
-        "ITEM_PIPELINES": {"web_scrapper.pipelines.GhanaJobsPipeline": 100}
+        "ITEM_PIPELINES": {"web_scrapper.pipelines.GhanaJobsPipeline": 100},
+        "DOWNLOAD_DELAY": 2,
     }
 
     def get_beautiful_soup(self, markup: str, parser: str) -> BeautifulSoup:
@@ -22,7 +35,11 @@ class GhanaJobsScraper(Spider):
 
     def start_requests(self) -> Iterable[Request]:
         for url in self.urls:
-            yield Request(url=url, callback=self.parse, headers=headers)
+            yield Request(
+                url=url,
+                callback=self.parse,
+                headers=headers,
+            )
 
     def parse(self, response: Response, **kwargs: Any) -> None:
         bs: BeautifulSoup = self.get_beautiful_soup(markup=response.text, parser="lxml")
@@ -33,9 +50,19 @@ class GhanaJobsScraper(Spider):
                 url=category_url,
                 callback=self.__parse_jobs_in_category,
                 headers=headers,
+                # meta=dict(
+                #     playwright=True,
+                #     playwright_include_page=True,
+                #     playwright_page_coroutines=[
+                #         PageMethod(
+                #             "wait_for_selector",
+                #             "div.jobsearch-search-results-box",
+                #         )
+                #     ],
+                # ),
             )
         follow_urls = []
-        for i in range(1, 11):
+        for i in range(1, 6):
             url = GHANA_JOBS_URL + "job-vacancies-search-ghana?page=" + str(i)
             follow_urls.append(url)
 
@@ -81,7 +108,10 @@ class GhanaJobsScraper(Spider):
             i += 1
         return url
 
-    def __parse_jobs_in_category(self, response: Response, **kwargs: Any) -> None:
+    async def __parse_jobs_in_category(
+        self,
+        response: Response,
+    ) -> None:
         bs: BeautifulSoup = self.get_beautiful_soup(markup=response.text, parser="lxml")
         job_search_results_box = bs.find(name="div", id="jobsearch-search-results-box")
 
@@ -124,7 +154,10 @@ class GhanaJobsScraper(Spider):
                 headers=headers,
             )
 
-    def __parse_job_details(self, response: Response, **kwargs: Any) -> None:
+    async def __parse_job_details(
+        self,
+        response: Response,
+    ) -> None:
         bs: BeautifulSoup = self.get_beautiful_soup(markup=response.text, parser="lxml")
         container_page_content = bs.find(name="div", class_="container-page-content")
 
@@ -258,7 +291,7 @@ class GhanaJobsScraper(Spider):
             },
         )
 
-    def __parse_company_description(
+    async def __parse_company_description(
         self,
         response: Response,
     ) -> str:

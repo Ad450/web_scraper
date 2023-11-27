@@ -1,7 +1,7 @@
 from typing import Dict
 
 headers: Dict[str, str] = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/109.0",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
     "Accept-Encoding": "gzip, deflate",
@@ -27,3 +27,15 @@ class ContentNotFoundException(Exception):
     def __init__(self, *args: object, message: str) -> None:
         super().__init__(*args)
         self.message = message
+
+        # meta=
+        # dict(
+        #     playwright=True,
+        #     playwright_include_page=True,
+        #     playwright_page_coroutines=[
+        #         PageMethod(
+        #             "wait_for_selector",
+        #             "div.candidate-jobsearch-container",
+        #         )
+        #     ],
+        # ),
