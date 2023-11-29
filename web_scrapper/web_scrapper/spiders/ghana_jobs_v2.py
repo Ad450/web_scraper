@@ -103,14 +103,14 @@ class GhanaJobsScraper(Spider):
 
         yield {
             "company-title": company_title.get(),
-            "company-link": company_title_link.get(),
+            "company-link": GHANA_JOBS_URL.rstrip("/") + company_title_link.get(),
             "company-website-url": company_website_url.get(),
             "industries": industries.getall(),
             "company-description": self.refine_company_description(company_description),
             "job-title": job_title.get(),
             "job-details": job_details.replace("\xa0", ""),
             "job-criteria": job_criteria,
-            "published-date": publication_date,
+            "published-date": publication_date.get(),
         }
 
     # special method for refining company description only
