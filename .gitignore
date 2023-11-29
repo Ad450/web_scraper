@@ -4,3 +4,7 @@ venv
 #linting
 .pylintrc
 .env
+
+ghan.json
+ghanajobs.json
+ghanajobsv2.json
