@@ -81,6 +81,10 @@ class GhanaJobsScraper(Spider):
         job_criteria = {}
         job_criteri_tag = response.css("table.job-ad-criteria tr")
 
+        publication_date = response.xpath(
+            '//div[@class="job-ad-publication-date"]/text()'
+        )
+
         for job_criteria_row in job_criteri_tag:
             criteria_key_tag = job_criteria_row.css("td")[0]
             criteria_value_tag = job_criteria_row.css("td")[1]
@@ -97,19 +101,19 @@ class GhanaJobsScraper(Spider):
             if criteria_key is not None and criteria_value is not None:
                 job_criteria[criteria_key] = criteria_value
 
-        print(job_criteria)
-
         yield {
-            "company_title": company_title.get(),
+            "company-title": company_title.get(),
             "company-link": company_title_link.get(),
             "company-website-url": company_website_url.get(),
             "industries": industries.getall(),
             "company-description": self.refine_company_description(company_description),
-            "job_title": job_title.get(),
-            "job_details": job_details.replace("\xa0", ""),
-            "job_criteria": job_criteria,
+            "job-title": job_title.get(),
+            "job-details": job_details.replace("\xa0", ""),
+            "job-criteria": job_criteria,
+            "published-date": publication_date,
         }
 
+    # special method for refining company description only
     def refine_company_description(self, description: str) -> str:
         index = description.find("Company description")
 
