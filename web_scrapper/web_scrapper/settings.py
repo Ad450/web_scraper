@@ -53,11 +53,26 @@ ROBOTSTXT_OBEY = True
 #    "web_scrapper.middlewares.WebScrapperSpiderMiddleware": 543,
 # }
 
+ROTATING_PROXY_LIST = [
+    "http://70.38.0.80:4128",
+    "http://93.157.196.58:8080",
+    "http://36.95.15.148:8080",
+    "http://64.189.106.6:3129",
+    "http://38.51.235.213:999",
+    "http://67.207.161.155:4128",
+    "http://195.151.230.1:8080",
+    "http://119.39.68.14:2323",
+    "http://182.53.23.248:8080",
+    "http://35.212.247.31:3128",
+    "http://35.212.176.136:3128",
+]
+
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "web_scrapper.middlewares.WebScrapperDownloaderMiddleware": 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    "rotating_proxies.middlewares.RotatingProxyMiddleware": 540,
+    "web_scrapper.middlewares.WebScrapperDownloaderMiddleware": 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
