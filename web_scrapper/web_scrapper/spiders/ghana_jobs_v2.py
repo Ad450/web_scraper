@@ -2,7 +2,7 @@ from typing import Any, Iterable, Dict
 import re
 from scrapy import Spider
 from scrapy.http import Response, Request
-from bs4 import BeautifulSoup
+
 
 from ..utils import headers, GHANA_JOBS_URL, ContentNotFoundException
 
@@ -23,9 +23,6 @@ class GhanaJobsScraper(Spider):
         "ITEM_PIPELINES": {"web_scrapper.pipelines.GhanaJobsPipeline": 100},
         "DOWNLOAD_DELAY": 2,
     }
-
-    def get_beautiful_soup(self, markup: str, parser: str) -> BeautifulSoup:
-        return BeautifulSoup(markup, features=parser)
 
     def start_requests(self) -> Iterable[Request]:
         for url in self.urls:
